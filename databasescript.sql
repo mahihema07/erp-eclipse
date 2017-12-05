@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `branch` (
   CONSTRAINT `fk_branch_companyid` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.branch: ~0 rows (approximately)
+-- Dumping data for table erp.branch: ~1 rows (approximately)
 /*!40000 ALTER TABLE `branch` DISABLE KEYS */;
 INSERT IGNORE INTO `branch` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `branchname`, `branchaddress`, `phoneno`, `faxno`, `emailaddress`, `website`, `company_id`) VALUES
 	(1, b'1', NULL, '2017-11-15 12:52:11', NULL, '2017-11-16 10:08:36', 'sample branch', NULL, NULL, NULL, NULL, NULL, 1);
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `company` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.company: ~0 rows (approximately)
+-- Dumping data for table erp.company: ~1 rows (approximately)
 /*!40000 ALTER TABLE `company` DISABLE KEYS */;
 INSERT IGNORE INTO `company` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `company`) VALUES
 	(1, b'1', NULL, '2017-11-16 10:08:29', NULL, '2017-11-16 10:08:29', 'sample company');
@@ -271,14 +271,17 @@ CREATE TABLE IF NOT EXISTS `products_hdr` (
   `userrole_id` int(11) NOT NULL,
   `company_id` int(11) NOT NULL,
   `is_stockable` bit(1) NOT NULL,
+  `product_category_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_products_uom_id` (`uom_id`),
   KEY `fk_products_usersid` (`user_id`),
   KEY `fk_products_branchid` (`branch_id`),
   KEY `fk_products_userroleid` (`userrole_id`),
   KEY `fk_products_companyid` (`company_id`),
+  KEY `fk_products_productcategoryid` (`product_category_id`),
   CONSTRAINT `fk_products_branchid` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`),
   CONSTRAINT `fk_products_companyid` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`),
+  CONSTRAINT `fk_products_productcategoryid` FOREIGN KEY (`product_category_id`) REFERENCES `product_category` (`id`),
   CONSTRAINT `fk_products_uom_id` FOREIGN KEY (`uom_id`) REFERENCES `uom` (`id`),
   CONSTRAINT `fk_products_userroleid` FOREIGN KEY (`userrole_id`) REFERENCES `userroles` (`id`),
   CONSTRAINT `fk_products_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
@@ -349,7 +352,7 @@ CREATE TABLE IF NOT EXISTS `product_specification_dtl` (
   CONSTRAINT `fk_product_specification_dtl_users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.product_specification_dtl: ~1 rows (approximately)
+-- Dumping data for table erp.product_specification_dtl: ~0 rows (approximately)
 /*!40000 ALTER TABLE `product_specification_dtl` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_specification_dtl` ENABLE KEYS */;
 
@@ -377,7 +380,7 @@ CREATE TABLE IF NOT EXISTS `product_specification_hdr` (
   CONSTRAINT `fk_product_specification_hdr_users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.product_specification_hdr: ~1 rows (approximately)
+-- Dumping data for table erp.product_specification_hdr: ~0 rows (approximately)
 /*!40000 ALTER TABLE `product_specification_hdr` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_specification_hdr` ENABLE KEYS */;
 
@@ -406,7 +409,7 @@ CREATE TABLE IF NOT EXISTS `specification_components` (
   CONSTRAINT `fk_specificationcomponent_users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.specification_components: ~12 rows (approximately)
+-- Dumping data for table erp.specification_components: ~10 rows (approximately)
 /*!40000 ALTER TABLE `specification_components` DISABLE KEYS */;
 INSERT IGNORE INTO `specification_components` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `user_id`, `component_name`, `component_code`, `company_id`, `branch_id`, `userrole_id`) VALUES
 	(1, b'1', NULL, '2017-10-27 20:53:13', 1, '2017-11-16 10:27:35', 1, 'Thickness', '', 1, 1, 1),
@@ -554,7 +557,7 @@ CREATE TABLE IF NOT EXISTS `system_constant_keys` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.system_constant_keys: ~0 rows (approximately)
+-- Dumping data for table erp.system_constant_keys: ~1 rows (approximately)
 /*!40000 ALTER TABLE `system_constant_keys` DISABLE KEYS */;
 INSERT IGNORE INTO `system_constant_keys` (`id`, `constant_key`) VALUES
 	(1, 'Account_Group_Type');
@@ -571,7 +574,7 @@ CREATE TABLE IF NOT EXISTS `system_constant_values` (
   CONSTRAINT `fk_systemconstantvalues_keyid` FOREIGN KEY (`systemconstant_key_id`) REFERENCES `system_constant_keys` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.system_constant_values: ~0 rows (approximately)
+-- Dumping data for table erp.system_constant_values: ~1 rows (approximately)
 /*!40000 ALTER TABLE `system_constant_values` DISABLE KEYS */;
 INSERT IGNORE INTO `system_constant_values` (`id`, `code`, `constant_value`, `systemconstant_key_id`) VALUES
 	(1, 'Asset', 'Asset', 1);
@@ -643,7 +646,7 @@ CREATE TABLE IF NOT EXISTS `userroles` (
   CONSTRAINT `fk_userroles_companyid` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.userroles: ~0 rows (approximately)
+-- Dumping data for table erp.userroles: ~1 rows (approximately)
 /*!40000 ALTER TABLE `userroles` DISABLE KEYS */;
 INSERT IGNORE INTO `userroles` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `role_code`, `role_name`, `branch_id`, `company_id`) VALUES
 	(1, b'1', NULL, '2017-11-16 10:10:19', NULL, '2017-11-16 10:10:58', NULL, 'sample role', 1, 1);
