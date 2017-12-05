@@ -11,9 +11,15 @@
 	<annotation-driven />
 	<!-- <resources mapping="/node_modules/**" location="file:C:Users/sd10031117/Desktop/nodedep/nodedep/node_modules/" 
 		/> -->
-	<!--  <resources mapping="/node_modules/**" location="file:C:/Users/Binief_T_A/Desktop/nodedep/node_modules/" />-->
-	<resources mapping="/node_modules/**" location="file:D:nodedep/node_modules/" /> 
+	<!-- <resources mapping="/node_modules/**" location="file:C:/Users/Binief_T_A/Desktop/nodedep/node_modules/" 
+		/> -->
+	<resources mapping="/node_modules/**" location="file:D:nodedep/node_modules/" />
+
+	<!-- <resources mapping="/node_modules/**" location="file:///projects/nod/nodedep/node_modules/" 
+		/> -->
+
 	<resources mapping="/*" location="/" />
+
 	<beans:bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/jsp/" />

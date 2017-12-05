@@ -39,6 +39,7 @@ System.register(["./components/home/app.home", "./components/registration/app.re
                         { path: 'products', loadChildren: './app/components/products/productsmaster/app.products.module#ProductsModule', canActivate: [app_authguard_1.AuthGuard] },
                         { path: 'category', loadChildren: './app/components/products/product_category/app.category.module#CategoryModule', canActivate: [app_authguard_1.AuthGuard] },
                         { path: 'accountgroup', loadChildren: './app/components/accounts/groups/app.accounts.group.module#AccountGroupModule', canActivate: [app_authguard_1.AuthGuard] },
+                        { path: 'chartofaccounts', loadChildren: './app/components/accounts/chartofaccounts/app.accounts.coa.module#ChartOfAccountsModule', canActivate: [app_authguard_1.AuthGuard] },
                         { path: 'specificatoncomponent', loadChildren: './app/components/products/specification_components/app.specification.module#SpecificationComponentModule', canActivate: [app_authguard_1.AuthGuard] },
                         { path: 'productspecification', loadChildren: './app/components/products/product_specifications/app.productspecification.module#ProductSpecificationModule', canActivate: [app_authguard_1.AuthGuard] },
                         { path: 'SpecificationUom', loadChildren: './app/components/products/unitofmeasure/app.uom.module#ProductSpecificationUomModule', canActivate: [app_authguard_1.AuthGuard] },

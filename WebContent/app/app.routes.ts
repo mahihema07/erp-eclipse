@@ -22,6 +22,7 @@ export const routes: Routes = [
             { path: 'products', loadChildren: './app/components/products/productsmaster/app.products.module#ProductsModule', canActivate: [AuthGuard] },
             { path: 'category', loadChildren: './app/components/products/product_category/app.category.module#CategoryModule', canActivate: [AuthGuard] },
             { path: 'accountgroup', loadChildren: './app/components/accounts/groups/app.accounts.group.module#AccountGroupModule', canActivate: [AuthGuard] },
+            { path: 'chartofaccounts', loadChildren: './app/components/accounts/chartofaccounts/app.accounts.coa.module#ChartOfAccountsModule', canActivate: [AuthGuard] },
             { path: 'specificatoncomponent', loadChildren: './app/components/products/specification_components/app.specification.module#SpecificationComponentModule', canActivate: [AuthGuard] },
             { path: 'productspecification', loadChildren: './app/components/products/product_specifications/app.productspecification.module#ProductSpecificationModule', canActivate: [AuthGuard] },
             { path: 'SpecificationUom', loadChildren: './app/components/products/unitofmeasure/app.uom.module#ProductSpecificationUomModule', canActivate: [AuthGuard] },

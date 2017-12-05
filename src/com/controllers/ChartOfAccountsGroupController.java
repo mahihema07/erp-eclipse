@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.interfaces.ISpringController;
 import com.models.ChartOfAccountsGroup;
 import com.models.ProductCategory;
+import com.models.Uom;
 import com.models.Users;
 import com.services.AppConnectionProvider;
 import com.services.DBService;
@@ -257,9 +258,34 @@ public class ChartOfAccountsGroupController implements ISpringController {
 
 
 	@Override
-	public ResponseBean loadAllActive(HttpSession sess, String body) {
-		// TODO Auto-generated method stub
-		return null;
+	@RequestMapping(value = "loadAllAccountGroup", method = RequestMethod.POST)
+	public ResponseBean loadAllActive(HttpSession sess, @RequestBody String body) {
+		ResponseBean responseBean = null;
+		DbOomQuery query = null;
+		ConnectionProvider cp = new AppConnectionProvider();
+		DbSession session = new DbSession(cp);
+		try {
+			JSONObject job = new JSONObject();
+			StringBuilder queryString = null;
+
+			Users u = (Users) sess.getAttribute(AppConstants.SESSION_VARIABLES.USER.name());
+
+			if (u == null) {
+				responseBean = new ResponseBean(AppConstants.RESPONSE_STATUS_VALUES.ERROR.name(), false);
+			} else {
+				queryString = new StringBuilder();
+				queryString.append("select $C{t.*} from $T{ChartOfAccountsGroup t} where $t.isActive=1");
+				query = new DbOomQuery(session, DbSqlBuilder.sql(queryString.toString())).autoClose();
+				List<ChartOfAccountsGroup> cg = query.list(ChartOfAccountsGroup.class);
+				responseBean = new ResponseBean(AppConstants.RESPONSE_STATUS_VALUES.SUCCESS.name(), true,
+						cg);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.closeSession();
+			return responseBean;
+		}
 	}
 
 }

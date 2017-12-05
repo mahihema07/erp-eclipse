@@ -21,6 +21,7 @@ public class EntityService {
 		e.setCompanyId(companyId);
 		e.setUserRoleId(userRoleId);
 		e.setUserId(userId);
+		e.setIsActive(1);
 		
 		if(e.getId()!=0) {
 			e.setUpdatedBy(userId);
