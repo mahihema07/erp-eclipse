@@ -1,5 +1,10 @@
 package com.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jacksonextentions.NumericBooleanDeserializer;
+import com.jacksonextentions.NumericBooleanSerializer;
+
 import jodd.db.oom.meta.DbColumn;
 import jodd.db.oom.meta.DbTable;
 
@@ -14,6 +19,11 @@ public class ProductsHdr extends Entity{
 	
 	@DbColumn("uom_id")
 	private int uomId;
+	
+	@JsonSerialize(using=NumericBooleanSerializer.class)
+	@JsonDeserialize(using=NumericBooleanDeserializer.class)
+	@DbColumn("is_stockable")
+	private int isStockable;
 	
 	
 	public String getProductName() {
@@ -38,6 +48,14 @@ public class ProductsHdr extends Entity{
 
 	public void setUomId(int uomId) {
 		this.uomId = uomId;
+	}
+
+	public int getStockable() {
+		return isStockable;
+	}
+
+	public void setStockable(int isStockable) {
+		this.isStockable = isStockable;
 	}
 
 

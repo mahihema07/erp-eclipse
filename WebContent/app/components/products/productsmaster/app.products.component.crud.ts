@@ -105,6 +105,7 @@ export class ProductsCrud implements OnInit {
                 var dataObj = ( data[AppConstants.RESPONSE_DATA] );
                 this.formData = ( dataObj.headerData );
                 this.gridData = dataObj.detailData;
+                console.log("fromdata=",this.formData);
             }
         },
         err => {

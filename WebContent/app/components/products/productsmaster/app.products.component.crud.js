@@ -114,6 +114,7 @@ System.register(["@angular/core", "@angular/http", "@angular/router", "rxjs/add/
                             var dataObj = (data[app_constants_1.AppConstants.RESPONSE_DATA]);
                             _this.formData = (dataObj.headerData);
                             _this.gridData = dataObj.detailData;
+                            console.log("fromdata=", _this.formData);
                         }
                     }, function (err) {
                         _this.show_throbber = false;
