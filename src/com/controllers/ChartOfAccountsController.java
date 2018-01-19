@@ -18,15 +18,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.constants.AppConstants;
+import com.constants.TableNames;
 import com.custommodels.ChartOfAccountsListModel;
 import com.custommodels.ResponseBean;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.interfaces.ISpringController;
+import com.models.AccountsHdr;
 import com.models.ChartOfAccounts;
 import com.models.ChartOfAccountsGroup;
+import com.models.ProductCategory;
 import com.models.Users;
+import com.services.AccountService;
+
 import com.services.AppConnectionProvider;
 import com.services.DBService;
 import com.services.EntityService;
@@ -50,6 +55,8 @@ public class ChartOfAccountsController implements ISpringController {
 	@Autowired
 	EntityService entityService;
 
+	
+	
 	@Override
 	@RequestMapping(value = "loadChartOfAccountsbypage", method = RequestMethod.POST)
 	public ResponseBean loadByPage(HttpSession sess, @RequestBody String body) {
@@ -187,8 +194,10 @@ public class ChartOfAccountsController implements ISpringController {
 
 				if (ch.getId() > 0) {
 					query = new DbOomQuery(session, DbEntitySql.update(ch));
+					
 				} else {
 					query = new DbOomQuery(session, DbSqlBuilder.sql().insert(ChartOfAccounts.class, ch));
+					
 				}
 
 				query.executeUpdate();
@@ -232,7 +241,6 @@ public class ChartOfAccountsController implements ISpringController {
 				queryString.append("delete $t from $T{ChartOfAccounts t} where $t.id=" + id);
 				query = new DbOomQuery(session, DbSqlBuilder.sql(queryString.toString())).autoClose();
 				query.executeUpdate();
-
 				responseBean = new ResponseBean(AppConstants.RESPONSE_STATUS_VALUES.SUCCESS.name(), true,
 						"Operation Successfull");
 			}
@@ -249,9 +257,34 @@ public class ChartOfAccountsController implements ISpringController {
 	}
 
 	@Override
+	@RequestMapping(value = "loadAllChartOfAccounts", method = RequestMethod.POST)
 	public ResponseBean loadAllActive(HttpSession sess, String body) {
-		// TODO Auto-generated method stub
-		return null;
+		ResponseBean responseBean = null;
+		DbOomQuery query = null;
+		ConnectionProvider cp = new AppConnectionProvider();
+		DbSession session = new DbSession(cp);
+		try {
+			JSONObject job = new JSONObject();
+			StringBuilder queryString = null;
+
+			Users u = (Users) sess.getAttribute(AppConstants.SESSION_VARIABLES.USER.name());
+
+			if (u == null) {
+				responseBean = new ResponseBean(AppConstants.RESPONSE_STATUS_VALUES.ERROR.name(), false);
+			} else {
+				queryString = new StringBuilder();
+				queryString.append("select $C{t.*} from $T{ChartOfAccounts t} where $t.isActive=1");
+				query = new DbOomQuery(session, DbSqlBuilder.sql(queryString.toString())).autoClose();
+				List<ChartOfAccounts> coa = query.list(ChartOfAccounts.class);
+				responseBean = new ResponseBean(AppConstants.RESPONSE_STATUS_VALUES.SUCCESS.name(), true,
+						coa);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.closeSession();
+			return responseBean;
+		}
 	}
 
 }

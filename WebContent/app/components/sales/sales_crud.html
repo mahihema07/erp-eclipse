@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sales </title>
+<style>
+.thumb {
+	height: 75px;
+	border: 1px solid #000;
+	margin: 10px 5px 0 0;
+}
+.scrollmenu {
+    overflow-x: auto;
+   
+    white-space: nowrap;
+}
+ 
+.form-group.required .control-label:after {
+	content: "*";
+	color: red;
+}
+</style>
+</head>
+
+
+<body *ngIf=formData>
+
+
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 *ngIf="!formData.id" class="page-header"
+					style="font-weight: bold; font-size: 16px;">New Sales
+					</h1>
+				<h1 *ngIf="formData.id > 0" class="page-header"
+				 style="font-weight: bold; font-size: 16px;">Edit Sales
+					</h1>
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+		<div class="row">
+
+			<div class="col-lg-12">
+				<div class="">
+					<form id="salesForm" data-toggle="validator"
+						(ngSubmit)="submitForm(salesForm.value)"
+						#salesForm="ngForm" class="form-horizontal">
+
+						<!-- We'll add our form controls here -->
+
+						<input type="hidden" [(ngModel)]="formData.id" name="id"
+							class="form-control" />
+
+						<div class="row">
+							<div class="col-xs-6">
+							<label class="control-label">Document Number <span
+									class="required">*</span>
+								</label> <input type="text" [(ngModel)]="formData.documentno"
+									name="documentno" class="form-control"
+									data-error="Document Number is required" required
+									maxlength="255" />
+								</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6">
+							<label class="control-label">Sales Date  <span
+									class="required">*</span>
+								</label> <input type="date" [(ngModel)]="formData.salesdate"
+									name="salesdate" class="form-control"
+									data-error="Sales Date is required" required
+									maxlength="255" />
+								</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6">
+							<label class="control-label">Accounted Date  <span
+									class="required">*</span>
+								</label> <input type="date" [(ngModel)]="formData.accounteddate"
+									name="accounteddate" class="form-control"
+									data-error="Accounted Date is required" required
+									maxlength="255" />
+								</div>
+						</div>
+						
+						
+						<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">Customer Name
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formData.customerid" name="customerid" required
+											class="form-control">
+											<option *ngFor="let c of customer" [value]="c.id">{{c.customerName}}</option>
+									</select>
+								</div>
+						</div>
+						
+						
+
+
+						<!-- Detail Grid -->
+						
+						<div class="row">
+							<div class="col-xs-24">
+								<h1 class="page-header" style="font-weight: bold; font-size: 14px"  >Sales Details</h1>
+							</div>
+							
+							<div class="col-xs-16">
+						
+								<div class="table-responsive">
+									<div class="scrollmenu">
+									<table *ngIf=gridData class="table table-striped" index="0" style="width: 100%">
+								
+										<thead>
+											<th style="color: #337ab7;">#</th>
+											
+											<th><div style="width:250px">Product Name</div></th>
+											<th><div style="width:250px">Product Specification</div></th>
+											<th><div style="width:150px">Quantity</div></th>
+											<th><div style="width:150px">Rate</div></th>
+											<th><div style="width:150px">Total Price</div></th>
+											
+											<th><button type="button" (click)="addRows()"
+													class="btn btn-sm btn-primary">
+													<span class="glyphicon glyphicon-plus" style="top: 0px;"
+														aria-hidden="true"></span>
+												</button></th>
+										</thead>
+										
+										
+										<tbody>
+											
+											<tr *ngFor="let item of gridData ; let i= index">
+												<td>{{i +1 }}</td>
+												
+												<td><select [(ngModel)]="item.producthdrid" required
+													name="producthdrid-{{i}}" class="form-control">
+														<option *ngFor="let p of producthdr"
+															[value]="p.id">{{p.productName}}</option>
+													</select></td>
+												
+												<td><select [(ngModel)]="item.productdtlid" required
+													name="productdtlid-{{i}}" class="form-control">
+														<option *ngFor="let p of specificationlist"
+															[value]="p.id">{{p.specificationName}}</option>
+													</select></td>
+												<td><input type="text"
+													[(ngModel)]="item.quantity"
+													name="quantity-{{i}}" class="form-control"
+													maxlength="255" data-error="Quantity is required" required
+													(ngModelChange)="item.totalprice=item.quantity*item.rate"/></td>
+												<td><input type="text"
+													[(ngModel)]="item.rate"
+													name="rate-{{i}}" class="form-control"
+													maxlength="255" data-error="Rate is required" required
+													(ngModelChange)="item.totalprice=item.quantity*item.rate"/></td>
+												<td><input type="text"
+													[(ngModel)]="item.totalprice"
+													name="totalprice-{{i}}" class="form-control"
+													 disabled="disabled"/></td>
+													 
+												<td><button type="button" (click)="removeRow(item,i)"
+														class="btn btn-sm btn-danger">
+														<span class="glyphicon glyphicon-trash" style="top: 0px;"
+														aria-hidden="true"></span></button></td>
+											</tr>
+										
+													
+										</tbody>
+									</table>
+								
+								</div>
+							</div>
+						</div>
+					</div>
+
+						<br>
+						<div class="row">
+							<div class="col-xs-6">
+								<button type="submit" class="btn btn-sm btn-primary">
+									<span *ngIf="!formData.id">Create</span> <span
+										*ngIf="formData.id > 0">Update</span>
+								</button>
+								<button [disabled]="!formData.id" type="button"
+									(click)="deleteModel(formData.id)"
+									class="btn btn-sm btn-danger">Delete</button>
+								<button type="button" (click)="backToHome()"
+									class="btn btn-sm btn-warning">Cancel</button>
+							</div>
+						</div>
+					<div class="row">
+                     <div *ngIf="show_throbber" class="col-lg-12" align="center"
+                        style="width: 100%;">
+                        <img alt="" src="img/loading1.gif">
+                     </div>
+                  </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Server version:               5.7.11 - MySQL Community Server (GPL)
--- Server OS:                    Win32
+-- Host:                         mysql7002.site4now.net
+-- Server version:               5.6.26-log - MySQL Community Server (GPL)
+-- Server OS:                    Win64
 -- HeidiSQL Version:             9.4.0.5125
 -- --------------------------------------------------------
 
@@ -11,12 +11,7 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-
--- Dumping database structure for erp
-CREATE DATABASE IF NOT EXISTS `erp` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `erp`;
-
--- Dumping structure for table erp.branch
+-- Dumping structure for table l5dpqcfl_erp.branch
 CREATE TABLE IF NOT EXISTS `branch` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -36,13 +31,13 @@ CREATE TABLE IF NOT EXISTS `branch` (
   CONSTRAINT `fk_branch_companyid` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.branch: ~1 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.branch: ~0 rows (approximately)
 /*!40000 ALTER TABLE `branch` DISABLE KEYS */;
 INSERT IGNORE INTO `branch` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `branchname`, `branchaddress`, `phoneno`, `faxno`, `emailaddress`, `website`, `company_id`) VALUES
 	(1, b'1', NULL, '2017-11-15 12:52:11', NULL, '2017-11-16 10:08:36', 'sample branch', NULL, NULL, NULL, NULL, NULL, 1);
 /*!40000 ALTER TABLE `branch` ENABLE KEYS */;
 
--- Dumping structure for table erp.chartofaccounts
+-- Dumping structure for table l5dpqcfl_erp.chartofaccounts
 CREATE TABLE IF NOT EXISTS `chartofaccounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -68,13 +63,15 @@ CREATE TABLE IF NOT EXISTS `chartofaccounts` (
   CONSTRAINT `fk_chartofaccounts_companyid` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`),
   CONSTRAINT `fk_chartofaccounts_userroleid` FOREIGN KEY (`userrole_id`) REFERENCES `userroles` (`id`),
   CONSTRAINT `fk_chartofaccounts_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.chartofaccounts: ~0 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.chartofaccounts: ~0 rows (approximately)
 /*!40000 ALTER TABLE `chartofaccounts` DISABLE KEYS */;
+INSERT IGNORE INTO `chartofaccounts` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `user_id`, `branch_id`, `userrole_id`, `company_id`, `chart_of_account_name`, `chartofaccount_groupid`, `chart_of_account_code`) VALUES
+	(1, b'1', 1, '2017-12-12 05:35:18', 0, '2017-12-11 21:35:19', 1, 1, 1, 1, 'Supplier A', 1, 'S');
 /*!40000 ALTER TABLE `chartofaccounts` ENABLE KEYS */;
 
--- Dumping structure for table erp.chartofaccounts_group
+-- Dumping structure for table l5dpqcfl_erp.chartofaccounts_group
 CREATE TABLE IF NOT EXISTS `chartofaccounts_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -100,13 +97,15 @@ CREATE TABLE IF NOT EXISTS `chartofaccounts_group` (
   CONSTRAINT `fk_chartofaccounts_group_grouptype` FOREIGN KEY (`group_type_id`) REFERENCES `system_constant_values` (`id`),
   CONSTRAINT `fk_chartofaccounts_group_userroleid` FOREIGN KEY (`userrole_id`) REFERENCES `userroles` (`id`),
   CONSTRAINT `fk_chartofaccounts_group_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.chartofaccounts_group: ~0 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.chartofaccounts_group: ~0 rows (approximately)
 /*!40000 ALTER TABLE `chartofaccounts_group` DISABLE KEYS */;
+INSERT IGNORE INTO `chartofaccounts_group` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `user_id`, `branch_id`, `userrole_id`, `company_id`, `group_name`, `group_type_id`, `predef_code`) VALUES
+	(1, b'1', 1, '2017-12-12 05:34:59', 1, '2017-12-12 05:42:50', 1, 1, 1, 1, 'Suppliers', 1, 'S');
 /*!40000 ALTER TABLE `chartofaccounts_group` ENABLE KEYS */;
 
--- Dumping structure for table erp.company
+-- Dumping structure for table l5dpqcfl_erp.company
 CREATE TABLE IF NOT EXISTS `company` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -118,13 +117,79 @@ CREATE TABLE IF NOT EXISTS `company` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.company: ~1 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.company: ~0 rows (approximately)
 /*!40000 ALTER TABLE `company` DISABLE KEYS */;
 INSERT IGNORE INTO `company` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `company`) VALUES
 	(1, b'1', NULL, '2017-11-16 10:08:29', NULL, '2017-11-16 10:08:29', 'sample company');
 /*!40000 ALTER TABLE `company` ENABLE KEYS */;
 
--- Dumping structure for table erp.customers
+-- Dumping structure for table l5dpqcfl_erp.currency
+CREATE TABLE IF NOT EXISTS `currency` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `isactive` bit(1) NOT NULL DEFAULT b'1',
+  `createdby` int(11) DEFAULT NULL,
+  `createdtime` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedby` int(11) DEFAULT NULL,
+  `updatedtime` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `userrole_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
+  `iso_currency_code` varchar(255) NOT NULL,
+  `currency_name` varchar(255) NOT NULL,
+  `currency_symbol` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_currency_usersid` (`user_id`),
+  KEY `fk_currency_branchid` (`branch_id`),
+  KEY `fk_currency_userroleid` (`userrole_id`),
+  KEY `fk_currency_companyid` (`company_id`),
+  CONSTRAINT `fk_currency_branchid` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`),
+  CONSTRAINT `fk_currency_companyid` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`),
+  CONSTRAINT `fk_currency_userroleid` FOREIGN KEY (`userrole_id`) REFERENCES `userroles` (`id`),
+  CONSTRAINT `fk_currency_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table l5dpqcfl_erp.currency: ~0 rows (approximately)
+/*!40000 ALTER TABLE `currency` DISABLE KEYS */;
+/*!40000 ALTER TABLE `currency` ENABLE KEYS */;
+
+-- Dumping structure for table l5dpqcfl_erp.currency_convertion_rates
+CREATE TABLE IF NOT EXISTS `currency_convertion_rates` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `isactive` bit(1) NOT NULL DEFAULT b'1',
+  `createdby` int(11) DEFAULT NULL,
+  `createdtime` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedby` int(11) DEFAULT NULL,
+  `updatedtime` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `userrole_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
+  `from_currency_id` int(11) NOT NULL,
+  `to_currency_id` int(11) NOT NULL,
+  `effective_from_date` datetime NOT NULL,
+  `multiply_rate` double NOT NULL,
+  `divide_rate` double NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_currency_convertion_rates_usersid` (`user_id`),
+  KEY `fk_currency_convertion_rates_branchid` (`branch_id`),
+  KEY `fk_currency_convertion_rates_userroleid` (`userrole_id`),
+  KEY `fk_currency_convertion_rates_companyid` (`company_id`),
+  KEY `fk_currency_convertion_rates_fromcurrencyid` (`from_currency_id`),
+  KEY `fk_currency_convertion_rates_tocurrencyid` (`to_currency_id`),
+  CONSTRAINT `fk_currency_convertion_rates_branchid` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`),
+  CONSTRAINT `fk_currency_convertion_rates_companyid` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`),
+  CONSTRAINT `fk_currency_convertion_rates_fromcurrencyid` FOREIGN KEY (`from_currency_id`) REFERENCES `currency` (`id`),
+  CONSTRAINT `fk_currency_convertion_rates_tocurrencyid` FOREIGN KEY (`to_currency_id`) REFERENCES `currency` (`id`),
+  CONSTRAINT `fk_currency_convertion_rates_userroleid` FOREIGN KEY (`userrole_id`) REFERENCES `userroles` (`id`),
+  CONSTRAINT `fk_currency_convertion_rates_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table l5dpqcfl_erp.currency_convertion_rates: ~0 rows (approximately)
+/*!40000 ALTER TABLE `currency_convertion_rates` DISABLE KEYS */;
+/*!40000 ALTER TABLE `currency_convertion_rates` ENABLE KEYS */;
+
+-- Dumping structure for table l5dpqcfl_erp.customers
 CREATE TABLE IF NOT EXISTS `customers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -151,11 +216,11 @@ CREATE TABLE IF NOT EXISTS `customers` (
   CONSTRAINT `fk_customers_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.customers: ~0 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.customers: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 
--- Dumping structure for table erp.customer_address
+-- Dumping structure for table l5dpqcfl_erp.customer_address
 CREATE TABLE IF NOT EXISTS `customer_address` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -192,11 +257,11 @@ CREATE TABLE IF NOT EXISTS `customer_address` (
   CONSTRAINT `fk_customer_address_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.customer_address: ~0 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.customer_address: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customer_address` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customer_address` ENABLE KEYS */;
 
--- Dumping structure for table erp.dummy
+-- Dumping structure for table l5dpqcfl_erp.dummy
 CREATE TABLE IF NOT EXISTS `dummy` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -219,11 +284,11 @@ CREATE TABLE IF NOT EXISTS `dummy` (
   CONSTRAINT `fk_dummy_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.dummy: ~0 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.dummy: ~0 rows (approximately)
 /*!40000 ALTER TABLE `dummy` DISABLE KEYS */;
 /*!40000 ALTER TABLE `dummy` ENABLE KEYS */;
 
--- Dumping structure for table erp.products_dtl
+-- Dumping structure for table l5dpqcfl_erp.products_dtl
 CREATE TABLE IF NOT EXISTS `products_dtl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -252,11 +317,11 @@ CREATE TABLE IF NOT EXISTS `products_dtl` (
   CONSTRAINT `fk_product_dtl_users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.products_dtl: ~0 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.products_dtl: ~0 rows (approximately)
 /*!40000 ALTER TABLE `products_dtl` DISABLE KEYS */;
 /*!40000 ALTER TABLE `products_dtl` ENABLE KEYS */;
 
--- Dumping structure for table erp.products_hdr
+-- Dumping structure for table l5dpqcfl_erp.products_hdr
 CREATE TABLE IF NOT EXISTS `products_hdr` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -285,13 +350,15 @@ CREATE TABLE IF NOT EXISTS `products_hdr` (
   CONSTRAINT `fk_products_uom_id` FOREIGN KEY (`uom_id`) REFERENCES `uom` (`id`),
   CONSTRAINT `fk_products_userroleid` FOREIGN KEY (`userrole_id`) REFERENCES `userroles` (`id`),
   CONSTRAINT `fk_products_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.products_hdr: ~0 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.products_hdr: ~0 rows (approximately)
 /*!40000 ALTER TABLE `products_hdr` DISABLE KEYS */;
+INSERT IGNORE INTO `products_hdr` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `user_id`, `productname`, `uom_id`, `branch_id`, `userrole_id`, `company_id`, `is_stockable`, `product_category_id`) VALUES
+	(1, b'1', 1, '2017-12-12 05:34:02', 0, '2017-12-11 21:34:03', 1, '18 MM', 1, 1, 1, 1, b'1', 1);
 /*!40000 ALTER TABLE `products_hdr` ENABLE KEYS */;
 
--- Dumping structure for table erp.product_category
+-- Dumping structure for table l5dpqcfl_erp.product_category
 CREATE TABLE IF NOT EXISTS `product_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -313,13 +380,15 @@ CREATE TABLE IF NOT EXISTS `product_category` (
   CONSTRAINT `fk_product_category_companyid` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`),
   CONSTRAINT `fk_product_category_userroleid` FOREIGN KEY (`userrole_id`) REFERENCES `userroles` (`id`),
   CONSTRAINT `fk_product_category_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.product_category: ~0 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.product_category: ~0 rows (approximately)
 /*!40000 ALTER TABLE `product_category` DISABLE KEYS */;
+INSERT IGNORE INTO `product_category` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `category_name`, `user_id`, `company_id`, `branch_id`, `userrole_id`) VALUES
+	(1, b'1', 1, '2017-12-12 05:33:32', 0, '2017-12-11 21:33:33', 'Plywoods', 1, 1, 1, 1);
 /*!40000 ALTER TABLE `product_category` ENABLE KEYS */;
 
--- Dumping structure for table erp.product_specification_dtl
+-- Dumping structure for table l5dpqcfl_erp.product_specification_dtl
 CREATE TABLE IF NOT EXISTS `product_specification_dtl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -350,13 +419,13 @@ CREATE TABLE IF NOT EXISTS `product_specification_dtl` (
   CONSTRAINT `fk_product_specification_dtl_uom_id` FOREIGN KEY (`uom_id`) REFERENCES `uom` (`id`),
   CONSTRAINT `fk_product_specification_dtl_userroleid` FOREIGN KEY (`userrole_id`) REFERENCES `userroles` (`id`),
   CONSTRAINT `fk_product_specification_dtl_users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.product_specification_dtl: ~0 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.product_specification_dtl: ~0 rows (approximately)
 /*!40000 ALTER TABLE `product_specification_dtl` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_specification_dtl` ENABLE KEYS */;
 
--- Dumping structure for table erp.product_specification_hdr
+-- Dumping structure for table l5dpqcfl_erp.product_specification_hdr
 CREATE TABLE IF NOT EXISTS `product_specification_hdr` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -378,13 +447,85 @@ CREATE TABLE IF NOT EXISTS `product_specification_hdr` (
   CONSTRAINT `fk_product_specification_hdr_company_id` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`),
   CONSTRAINT `fk_product_specification_hdr_userroleid` FOREIGN KEY (`userrole_id`) REFERENCES `userroles` (`id`),
   CONSTRAINT `fk_product_specification_hdr_users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.product_specification_hdr: ~0 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.product_specification_hdr: ~0 rows (approximately)
 /*!40000 ALTER TABLE `product_specification_hdr` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_specification_hdr` ENABLE KEYS */;
 
--- Dumping structure for table erp.specification_components
+-- Dumping structure for table l5dpqcfl_erp.purchase_entry_dtl
+CREATE TABLE IF NOT EXISTS `purchase_entry_dtl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `isactive` bit(1) NOT NULL DEFAULT b'1',
+  `createdby` int(11) DEFAULT NULL,
+  `createdtime` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedby` int(11) DEFAULT NULL,
+  `updatedtime` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `userrole_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
+  `purchase_entry_hdr_id` int(11) NOT NULL,
+  `product_hdr_id` int(11) NOT NULL,
+  `product_dtl_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `rate` int(11) NOT NULL,
+  `total_price` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_purchase_entry_dtl_usersid` (`user_id`),
+  KEY `fk_purchase_entry_dtl_branchid` (`branch_id`),
+  KEY `fk_purchase_entry_dtl_userroleid` (`userrole_id`),
+  KEY `fk_purchase_entry_dtl_companyid` (`company_id`),
+  KEY `fk_purchase_entry_dtl_purchasehdrid` (`purchase_entry_hdr_id`),
+  KEY `fk_purchase_entry_dtl_producthdrid` (`product_hdr_id`),
+  KEY `fk_purchase_entry_dtl_productdtlid` (`product_dtl_id`),
+  CONSTRAINT `fk_purchase_entry_dtl_branchid` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`),
+  CONSTRAINT `fk_purchase_entry_dtl_companyid` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`),
+  CONSTRAINT `fk_purchase_entry_dtl_productdtlid` FOREIGN KEY (`product_dtl_id`) REFERENCES `products_dtl` (`id`),
+  CONSTRAINT `fk_purchase_entry_dtl_producthdrid` FOREIGN KEY (`product_hdr_id`) REFERENCES `products_hdr` (`id`),
+  CONSTRAINT `fk_purchase_entry_dtl_purchasehdrid` FOREIGN KEY (`purchase_entry_hdr_id`) REFERENCES `purchase_entry_hdr` (`id`),
+  CONSTRAINT `fk_purchase_entry_dtl_userroleid` FOREIGN KEY (`userrole_id`) REFERENCES `userroles` (`id`),
+  CONSTRAINT `fk_purchase_entry_dtl_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table l5dpqcfl_erp.purchase_entry_dtl: ~0 rows (approximately)
+/*!40000 ALTER TABLE `purchase_entry_dtl` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchase_entry_dtl` ENABLE KEYS */;
+
+-- Dumping structure for table l5dpqcfl_erp.purchase_entry_hdr
+CREATE TABLE IF NOT EXISTS `purchase_entry_hdr` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `isactive` bit(1) NOT NULL DEFAULT b'1',
+  `createdby` int(11) DEFAULT NULL,
+  `createdtime` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedby` int(11) DEFAULT NULL,
+  `updatedtime` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `userrole_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
+  `purchase_date` datetime NOT NULL,
+  `accounted_date` datetime NOT NULL,
+  `document_no` varchar(255) NOT NULL,
+  `supplier_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_purchase_entry_hdr_usersid` (`user_id`),
+  KEY `fk_purchase_entry_hdr_branchid` (`branch_id`),
+  KEY `fk_purchase_entry_hdr_userroleid` (`userrole_id`),
+  KEY `fk_purchase_entry_hdr_companyid` (`company_id`),
+  KEY `fk_purchase_entry_hdr_supplierid` (`supplier_id`),
+  CONSTRAINT `fk_purchase_entry_hdr_branchid` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`),
+  CONSTRAINT `fk_purchase_entry_hdr_companyid` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`),
+  CONSTRAINT `fk_purchase_entry_hdr_supplierid` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`),
+  CONSTRAINT `fk_purchase_entry_hdr_userroleid` FOREIGN KEY (`userrole_id`) REFERENCES `userroles` (`id`),
+  CONSTRAINT `fk_purchase_entry_hdr_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table l5dpqcfl_erp.purchase_entry_hdr: ~0 rows (approximately)
+/*!40000 ALTER TABLE `purchase_entry_hdr` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchase_entry_hdr` ENABLE KEYS */;
+
+-- Dumping structure for table l5dpqcfl_erp.specification_components
 CREATE TABLE IF NOT EXISTS `specification_components` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -409,7 +550,7 @@ CREATE TABLE IF NOT EXISTS `specification_components` (
   CONSTRAINT `fk_specificationcomponent_users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.specification_components: ~10 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.specification_components: ~10 rows (approximately)
 /*!40000 ALTER TABLE `specification_components` DISABLE KEYS */;
 INSERT IGNORE INTO `specification_components` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `user_id`, `component_name`, `component_code`, `company_id`, `branch_id`, `userrole_id`) VALUES
 	(1, b'1', NULL, '2017-10-27 20:53:13', 1, '2017-11-16 10:27:35', 1, 'Thickness', '', 1, 1, 1),
@@ -424,7 +565,7 @@ INSERT IGNORE INTO `specification_components` (`id`, `isactive`, `createdby`, `c
 	(14, b'1', NULL, '2017-10-27 21:30:07', NULL, '2017-11-16 10:27:35', 1, 'l', '', 1, 1, 1);
 /*!40000 ALTER TABLE `specification_components` ENABLE KEYS */;
 
--- Dumping structure for table erp.stockadjustment_hdr
+-- Dumping structure for table l5dpqcfl_erp.stockadjustment_hdr
 CREATE TABLE IF NOT EXISTS `stockadjustment_hdr` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -449,11 +590,11 @@ CREATE TABLE IF NOT EXISTS `stockadjustment_hdr` (
   CONSTRAINT `fk_stockadjustment_hdr_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.stockadjustment_hdr: ~0 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.stockadjustment_hdr: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stockadjustment_hdr` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stockadjustment_hdr` ENABLE KEYS */;
 
--- Dumping structure for table erp.stock_dtl
+-- Dumping structure for table l5dpqcfl_erp.stock_dtl
 CREATE TABLE IF NOT EXISTS `stock_dtl` (
   `id` int(11) NOT NULL,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -487,11 +628,11 @@ CREATE TABLE IF NOT EXISTS `stock_dtl` (
   CONSTRAINT `fk_stockdtl_stockhdrid` FOREIGN KEY (`stockhdrid`) REFERENCES `stock_hdr` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.stock_dtl: ~0 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.stock_dtl: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stock_dtl` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stock_dtl` ENABLE KEYS */;
 
--- Dumping structure for table erp.stock_hdr
+-- Dumping structure for table l5dpqcfl_erp.stock_hdr
 CREATE TABLE IF NOT EXISTS `stock_hdr` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tablename` varchar(100) NOT NULL,
@@ -519,11 +660,11 @@ CREATE TABLE IF NOT EXISTS `stock_hdr` (
   CONSTRAINT `fk_stock_hdr_usersid` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.stock_hdr: ~0 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.stock_hdr: ~0 rows (approximately)
 /*!40000 ALTER TABLE `stock_hdr` DISABLE KEYS */;
 /*!40000 ALTER TABLE `stock_hdr` ENABLE KEYS */;
 
--- Dumping structure for table erp.suppliers
+-- Dumping structure for table l5dpqcfl_erp.suppliers
 CREATE TABLE IF NOT EXISTS `suppliers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -535,35 +676,84 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
   `branch_id` int(11) NOT NULL,
   `userrole_id` int(11) NOT NULL,
   `company_id` int(11) NOT NULL,
+  `supplier_name` varchar(255) NOT NULL,
+  `supplier_coa_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_suppliers_usersid` (`user_id`),
   KEY `fk_suppliers_branchid` (`branch_id`),
   KEY `fk_suppliers_userroleid` (`userrole_id`),
   KEY `fk_suppliers_companyid` (`company_id`),
+  KEY `fk_suppliers_coadid` (`supplier_coa_id`),
   CONSTRAINT `fk_suppliers_branchid` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`),
+  CONSTRAINT `fk_suppliers_coadid` FOREIGN KEY (`supplier_coa_id`) REFERENCES `chartofaccounts` (`id`),
   CONSTRAINT `fk_suppliers_companyid` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`),
   CONSTRAINT `fk_suppliers_userroleid` FOREIGN KEY (`userrole_id`) REFERENCES `userroles` (`id`),
   CONSTRAINT `fk_suppliers_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.suppliers: ~0 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.suppliers: ~0 rows (approximately)
 /*!40000 ALTER TABLE `suppliers` DISABLE KEYS */;
+INSERT IGNORE INTO `suppliers` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `user_id`, `branch_id`, `userrole_id`, `company_id`, `supplier_name`, `supplier_coa_id`) VALUES
+	(1, b'1', 1, '2017-12-12 05:36:06', 0, '2017-12-11 21:36:07', 1, 1, 1, 1, 'Supplier A', 1);
 /*!40000 ALTER TABLE `suppliers` ENABLE KEYS */;
 
--- Dumping structure for table erp.system_constant_keys
+-- Dumping structure for table l5dpqcfl_erp.supplier_address
+CREATE TABLE IF NOT EXISTS `supplier_address` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `isactive` bit(1) NOT NULL DEFAULT b'1',
+  `createdby` int(11) DEFAULT NULL,
+  `createdtime` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedby` int(11) DEFAULT NULL,
+  `updatedtime` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `userrole_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
+  `supplier_id` int(11) NOT NULL,
+  `line1` varchar(1000) NOT NULL,
+  `line2` varchar(1000) NOT NULL,
+  `city` varchar(255) NOT NULL,
+  `state` varchar(255) NOT NULL,
+  `country` varchar(255) NOT NULL,
+  `zip` varchar(1000) NOT NULL,
+  `primary_phone` varchar(15) NOT NULL,
+  `secondary_phone` varchar(15) NOT NULL,
+  `primary_email` varchar(100) NOT NULL,
+  `secondary_email` varchar(100) NOT NULL,
+  `website` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_supplier_address_usersid` (`user_id`),
+  KEY `fk_supplier_address_branchid` (`branch_id`),
+  KEY `fk_supplier_address_userroleid` (`userrole_id`),
+  KEY `fk_supplier_address_companyid` (`company_id`),
+  KEY `fk_supplier_address_supplierid` (`supplier_id`),
+  CONSTRAINT `fk_supplier_address_branchid` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`),
+  CONSTRAINT `fk_supplier_address_companyid` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`),
+  CONSTRAINT `fk_supplier_address_supplierid` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`),
+  CONSTRAINT `fk_supplier_address_userroleid` FOREIGN KEY (`userrole_id`) REFERENCES `userroles` (`id`),
+  CONSTRAINT `fk_supplier_address_usersid` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table l5dpqcfl_erp.supplier_address: ~0 rows (approximately)
+/*!40000 ALTER TABLE `supplier_address` DISABLE KEYS */;
+INSERT IGNORE INTO `supplier_address` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `user_id`, `branch_id`, `userrole_id`, `company_id`, `supplier_id`, `line1`, `line2`, `city`, `state`, `country`, `zip`, `primary_phone`, `secondary_phone`, `primary_email`, `secondary_email`, `website`) VALUES
+	(1, b'1', 1, '2017-12-12 05:36:09', 0, '2017-12-11 21:36:12', 1, 1, 1, 1, 1, 'Adsd ', 'cddsad asd', 'das d', ' das ', 'das d', ' dasd', 'das', 'd as', 'dsad@we.com', 'dsad@sd.com', 'dsad');
+/*!40000 ALTER TABLE `supplier_address` ENABLE KEYS */;
+
+-- Dumping structure for table l5dpqcfl_erp.system_constant_keys
 CREATE TABLE IF NOT EXISTS `system_constant_keys` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `constant_key` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.system_constant_keys: ~1 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.system_constant_keys: ~0 rows (approximately)
 /*!40000 ALTER TABLE `system_constant_keys` DISABLE KEYS */;
 INSERT IGNORE INTO `system_constant_keys` (`id`, `constant_key`) VALUES
 	(1, 'Account_Group_Type');
 /*!40000 ALTER TABLE `system_constant_keys` ENABLE KEYS */;
 
--- Dumping structure for table erp.system_constant_values
+-- Dumping structure for table l5dpqcfl_erp.system_constant_values
 CREATE TABLE IF NOT EXISTS `system_constant_values` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(255) NOT NULL DEFAULT '0',
@@ -574,13 +764,13 @@ CREATE TABLE IF NOT EXISTS `system_constant_values` (
   CONSTRAINT `fk_systemconstantvalues_keyid` FOREIGN KEY (`systemconstant_key_id`) REFERENCES `system_constant_keys` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.system_constant_values: ~1 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.system_constant_values: ~0 rows (approximately)
 /*!40000 ALTER TABLE `system_constant_values` DISABLE KEYS */;
 INSERT IGNORE INTO `system_constant_values` (`id`, `code`, `constant_value`, `systemconstant_key_id`) VALUES
 	(1, 'Asset', 'Asset', 1);
 /*!40000 ALTER TABLE `system_constant_values` ENABLE KEYS */;
 
--- Dumping structure for table erp.system_roles
+-- Dumping structure for table l5dpqcfl_erp.system_roles
 CREATE TABLE IF NOT EXISTS `system_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -589,7 +779,7 @@ CREATE TABLE IF NOT EXISTS `system_roles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.system_roles: ~3 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.system_roles: ~3 rows (approximately)
 /*!40000 ALTER TABLE `system_roles` DISABLE KEYS */;
 INSERT IGNORE INTO `system_roles` (`id`, `isactive`, `role_code`, `rolename`) VALUES
 	(1, b'1', 'App_Admin', 'Application Admin'),
@@ -597,7 +787,7 @@ INSERT IGNORE INTO `system_roles` (`id`, `isactive`, `role_code`, `rolename`) VA
 	(3, b'1', 'Branch_User', 'Organisation User');
 /*!40000 ALTER TABLE `system_roles` ENABLE KEYS */;
 
--- Dumping structure for table erp.uom
+-- Dumping structure for table l5dpqcfl_erp.uom
 CREATE TABLE IF NOT EXISTS `uom` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -621,13 +811,13 @@ CREATE TABLE IF NOT EXISTS `uom` (
   CONSTRAINT `fk_uom_users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.uom: ~1 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.uom: ~0 rows (approximately)
 /*!40000 ALTER TABLE `uom` DISABLE KEYS */;
 INSERT IGNORE INTO `uom` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `user_id`, `uomname`, `company_id`, `branch_id`, `userrole_id`) VALUES
 	(1, b'1', NULL, '2017-11-13 09:54:39', NULL, '2017-11-24 11:35:45', 1, 'Meter', 1, 1, 1);
 /*!40000 ALTER TABLE `uom` ENABLE KEYS */;
 
--- Dumping structure for table erp.userroles
+-- Dumping structure for table l5dpqcfl_erp.userroles
 CREATE TABLE IF NOT EXISTS `userroles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -646,13 +836,13 @@ CREATE TABLE IF NOT EXISTS `userroles` (
   CONSTRAINT `fk_userroles_companyid` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.userroles: ~1 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.userroles: ~0 rows (approximately)
 /*!40000 ALTER TABLE `userroles` DISABLE KEYS */;
 INSERT IGNORE INTO `userroles` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `role_code`, `role_name`, `branch_id`, `company_id`) VALUES
 	(1, b'1', NULL, '2017-11-16 10:10:19', NULL, '2017-11-16 10:10:58', NULL, 'sample role', 1, 1);
 /*!40000 ALTER TABLE `userroles` ENABLE KEYS */;
 
--- Dumping structure for table erp.users
+-- Dumping structure for table l5dpqcfl_erp.users
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `isactive` bit(1) NOT NULL DEFAULT b'1',
@@ -675,7 +865,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   CONSTRAINT `fk_users_userroleid` FOREIGN KEY (`userrole_id`) REFERENCES `userroles` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table erp.users: ~1 rows (approximately)
+-- Dumping data for table l5dpqcfl_erp.users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT IGNORE INTO `users` (`id`, `isactive`, `createdby`, `createdtime`, `updatedby`, `updatedtime`, `username`, `password`, `account_expiy_date`, `branch_id`, `company_id`, `userrole_id`) VALUES
 	(1, b'1', NULL, '2017-10-19 21:01:36', NULL, '2017-11-16 10:20:30', 'admin', 'admin', '0000-00-00 00:00:00', 1, 1, 1);

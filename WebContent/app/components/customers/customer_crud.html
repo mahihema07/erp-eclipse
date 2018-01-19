@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customers </title>
+<style>
+.thumb {
+	height: 75px;
+	border: 1px solid #000;
+	margin: 10px 5px 0 0;
+}
+.scrollmenu {
+    overflow-x: auto;
+   
+    white-space: nowrap;
+}
+
+.form-group.required .control-label:after {
+	content: "*";
+	color: red;
+}
+</style>
+</head>
+<body *ngIf=formData>
+
+
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 *ngIf="!formData.id" class="page-header"
+					style="font-weight: bold; font-size: 16px;">New customer
+					</h1>
+				<h1 *ngIf="formData.id > 0" class="page-header"
+				 style="font-weight: bold; font-size: 16px;">Edit Customer
+					</h1>
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+		<div class="row">
+
+			<div class="col-lg-12">
+				<div class="">
+					<form id="customerForm" data-toggle="validator"
+						(ngSubmit)="submitForm(customerForm.value)"
+						#customerForm="ngForm" class="form-horizontal">
+
+						<!-- We'll add our form controls here -->
+
+						<input type="hidden" [(ngModel)]="formData.id" name="id"
+							class="form-control" />
+
+						<div class="row">
+							<div class="col-xs-6">
+
+								<label class="control-label">Customer Name  <span
+									class="required">*</span>
+								</label> <input type="text" [(ngModel)]="formData.customerName"
+									name="customerName" class="form-control"
+									data-error="Customer Name is required" required
+									maxlength="255" />
+
+							</div>
+						</div>
+						
+						<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">Chart Of Account Name
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formData.customercoaid" name="customercoaid" required
+											class="form-control">
+											<option *ngFor="let c of coadata" [value]="c.id">{{c.coaName}}</option>
+									</select>
+								</div>
+						</div>
+						
+						
+
+
+						<!-- Detail Grid -->
+						
+						<div class="row">
+							<div class="col-xs-24">
+								<h1 class="page-header" style="font-weight: bold; font-size: 14px"  >Customer Details</h1>
+							</div>
+							
+							<div class="col-xs-16">
+						
+								<div class="table-responsive">
+									<div class="scrollmenu">
+									<table *ngIf=gridData class="table table-striped" index="0" style="width: 100%">
+								
+										<thead>
+											<th style="color: #337ab7;">#</th>
+											
+											<th><div style="width:250px">Address Line1</div></th>
+											<th><div style="width:250px">Address Line2</div></th>
+											<th><div style="width:150px">City</div></th>
+											<th><div style="width:150px">State</div></th>
+											<th><div style="width:150px">Country</div></th>
+											<th><div style="width:150px">Zip</div></th>
+											<th><div style="width:150px">Primary Phone No</div></th>
+											<th><div style="width:150px">Secondary Phone No</div></th>
+											<th><div style="width:200px">Primary Email</div></th>
+											<th><div style="width:200px">Secondary Email</div></th>
+											<th><div style="width:150px">Website</div></th>
+											<th><button type="button" (click)="addRows()"
+													class="btn btn-sm btn-primary">
+													<span class="glyphicon glyphicon-plus" style="top: 0px;"
+														aria-hidden="true"></span>
+												</button></th>
+										</thead>
+										
+										
+										<tbody>
+											
+											<tr *ngFor="let item of gridData ; let i= index">
+												<td>{{i +1 }}</td>
+												
+												<td><input type="text"
+													[(ngModel)]="item.lineA"
+													name="lineA-{{i}}" class="form-control"
+													maxlength="1000" data-error="Supplier Name is required" required/></td>
+												<td><input type="text"
+													[(ngModel)]="item.lineb"
+													name="lineb-{{i}}" class="form-control"
+													maxlength="255" data-error="Supplier Name is required" required/></td>
+												<td><input type="text"
+													[(ngModel)]="item.city"
+													name="city-{{i}}" class="form-control"
+													maxlength="255" data-error="Supplier Name is required" required/></td>
+												<td><input type="text"
+													[(ngModel)]="item.state"
+													name="state-{{i}}" class="form-control"
+													maxlength="255" data-error="Supplier Name is required" required/></td>
+												<td><input type="text"
+													[(ngModel)]="item.country"
+													name="country-{{i}}" class="form-control"
+													maxlength="255" data-error="Supplier Name is required" required/></td>
+												<td><input type="text"
+													[(ngModel)]="item.zip"
+													name="zip-{{i}}" class="form-control"
+													maxlength="1000" data-error="Supplier Name is required" required/></td>
+												<td><input type="text"
+													[(ngModel)]="item.primephone"
+													name="primephone-{{i}}" class="form-control"
+													maxlength="15" data-error="Supplier Name is required" required/></td>
+												<td><input type="text"
+													[(ngModel)]="item.secondphone"
+													name="secondphone-{{i}}" class="form-control"
+													maxlength="15" data-error="Supplier Name is required" required/></td>
+												<td><input type="text"
+													[(ngModel)]="item.primemail"
+													name="primemail-{{i}}" class="form-control"
+													maxlength="100" data-error="Supplier Name is required" required/></td>
+												<td><input type="text"
+													[(ngModel)]="item.secondenail"
+													name="secondenail-{{i}}" class="form-control"
+													maxlength="100" data-error="Supplier Name is required" required/></td>
+												<td><input type="text"
+													[(ngModel)]="item.website"
+													name="website-{{i}}" class="form-control"
+													maxlength="255" data-error="Supplier Name is required" required/></td>
+												
+												<td><button type="button" (click)="removeRow(item,i)"
+													class="btn btn-sm btn-danger">
+													<span class="glyphicon glyphicon-trash" style="top: 0px;"
+													aria-hidden="true"></span></button>
+												</td>
+											</tr>
+										
+													
+										</tbody>
+									</table>
+								
+								</div>
+							</div>
+						</div>
+					</div>
+
+						<br>
+						<div class="row">
+							<div class="col-xs-6">
+								<button type="submit" class="btn btn-sm btn-primary">
+									<span *ngIf="!formData.id">Create</span> <span
+										*ngIf="formData.id > 0">Update</span>
+								</button>
+								<button [disabled]="!formData.id" type="button"
+									(click)="deleteModel(formData.id)"
+									class="btn btn-sm btn-danger">Delete</button>
+								<button type="button" (click)="backToHome()"
+									class="btn btn-sm btn-warning">Cancel</button>
+							</div>
+						</div>
+						
+						<div class="row">
+                     <div *ngIf="show_throbber" class="col-lg-12" align="center"
+                        style="width: 100%;">
+                        <img alt="" src="img/loading1.gif">
+                     </div>
+                  </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

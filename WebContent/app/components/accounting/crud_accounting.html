@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Currency</title>
+<style>
+.thumb {
+	height: 75px;
+	border: 1px solid #000;
+	margin: 10px 5px 0 0;
+}
+
+.form-group.required .control-label:after {
+	content: "*";
+	color: red;
+}
+
+</style>
+</head>
+<body *ngIf="formdata">
+
+
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1  class="page-header"
+					style="font-weight: bold; font-size: 16px;">Accounting Defaults
+					</h1>
+			</div>
+		</div>
+	</div>	
+	
+
+
+<form id="accountingdefaultsForm" data-toggle="validator"
+						(ngSubmit)="submitForm(accountingdefaultsForm.value)"
+						#accountingdefaultsForm="ngForm" class="form-horizontal">
+
+		<ul class="nav nav-tabs">
+			<li class="active"><a  href="#1" data-toggle="tab">Default Accounts</a>
+			</li>
+			<li><a href="#2" data-toggle="tab">Default Groups</a>
+			</li>
+			
+		</ul>
+		
+	<div class="tab-content ">
+	
+					<!--tab 1  -->
+					
+			   <div class="tab-pane active" id="1">
+			    			<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">Sales Charts Of Account
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.salescoaid" required="true"
+									name="salescoaid"
+											class="form-control">
+											<option *ngFor="let c of accountdata" [value]="c.id">
+											{{c.coaName}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">Purchase Charts Of Account
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.purchasecoaid" required="true"
+									name="purchasecoaid"
+											class="form-control">
+											<option *ngFor="let c of accountdata" [value]="c.id">
+											{{c.coaName}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">Bank Charts Of Account
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.bankcoaid" required="true"
+									name="bankcoaid"
+											class="form-control">
+											<option *ngFor="let c of accountdata" [value]="c.id">
+											{{c.coaName}}</option>
+							</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">Cash Charts Of Account
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.cashcoaid" required="true"
+									name="cashcoaid"
+											class="form-control">
+											<option *ngFor="let c of accountdata" [value]="c.id">
+											{{c.coaName}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">cogs Charts Of Account
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.cogscoaid" required="true"
+									name="cogscoaid"
+											class="form-control">
+											<option *ngFor="let c of accountdata" [value]="c.id">
+											{{c.coaName}}</option>
+									</select>
+								</div>
+							</div>
+							
+           		 </div>
+			   
+			   
+			  <!--tab 2  -->
+			  
+				<div class="tab-pane" id="2">
+          			 	<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label"> Receivable Group
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.accountrecievablesgroupid" required="true"
+									name="accountrecievablesgroupid"
+											class="form-control">
+											<option *ngFor="let c of groupdata" [value]="c.id">
+											{{c.groupName}}</option>
+									</select>
+								</div>
+							</div>		
+							<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label"> payable Group
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.accountpayablesgroupid" required="true"
+									name="accountpayablesgroupid"
+											class="form-control">
+											<option *ngFor="let c of groupdata" [value]="c.id">
+											{{c.groupName}}</option>
+									</select>
+								</div>
+							</div>	
+							<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">cogs Group
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.cogsgroupid" required="true"
+									name="cogsgroupid"
+											class="form-control">
+											<option *ngFor="let c of groupdata" [value]="c.id">
+											{{c.groupName}}</option>
+									</select>
+								</div>
+							</div>	
+							<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">Cash Group
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.cashgroupid" required="true"
+									name="cashgroupid"
+											class="form-control">
+											<option *ngFor="let c of groupdata" [value]="c.id">
+											{{c.groupName}}</option>
+									</select>
+								</div>
+							</div>	
+							<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">Bank Group
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.bankgroupid" required="true"
+									name="bankgroupid"
+											class="form-control">
+											<option *ngFor="let c of groupdata" [value]="c.id">
+											{{c.groupName}}</option>
+									</select>
+								</div>
+							</div>	
+							<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">Asset Group
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.assetgroupid" required="true"
+									name="assetgroupid"
+											class="form-control">
+											<option *ngFor="let c of groupdata" [value]="c.id">
+											{{c.groupName}}</option>
+									</select>
+								</div>
+							</div>	
+							<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">Liability Group
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.liabilitygroupid" required="true"
+									name="liabilitygroupid"
+											class="form-control">
+											<option *ngFor="let c of groupdata" [value]="c.id">
+											{{c.groupName}}</option>
+									</select>
+								</div>
+							</div>	
+							<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">Income Group
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.incomegroupid" required="true"
+									name="incomegroupid"
+											class="form-control">
+											<option *ngFor="let c of groupdata" [value]="c.id">
+											{{c.groupName}}</option>
+									</select>
+								</div>
+							</div>	
+							<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">Expense Group
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.expensegroupid" required="true"
+									name="expensegroupid"
+											class="form-control">
+											<option *ngFor="let c of groupdata" [value]="c.id">
+											{{c.groupName}}</option>
+									</select>
+								</div>
+							</div>	
+							<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">Inventory Group
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.inventorygroupid" required="true"
+									name="inventorygroupid"
+											class="form-control">
+											<option *ngFor="let c of groupdata" [value]="c.id">
+											{{c.groupName}}</option>
+									</select>
+								</div>
+							</div>	
+							<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">Equity Group
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formdata.equitygroupid" required="true"
+									name="equitygroupid"
+											class="form-control">
+											<option *ngFor="let c of groupdata" [value]="c.id">
+											{{c.groupName}}</option>
+									</select>
+								</div>
+							</div>	
+					</div>
+        
+			</div>
+							<div class="col-xs-6">
+								<button type="submit" class="btn btn-sm btn-primary">
+									<span *ngIf="!formdata.id">Create</span> <span
+										*ngIf="formdata.id > 0">Update</span>
+								</button>
+								<button [disabled]="!formdata.id" type="button"
+									(click)="deleteModel(formdata.id)"
+									class="btn btn-sm btn-danger">Delete</button>
+								
+							</div>
+							<div class="row">
+                    			 <div *ngIf="show_throbber" class="col-lg-12" align="center"
+                       				 style="width: 100%;">
+                      				  <img alt="" src="img/loading1.gif">
+                     			</div>
+                 			 </div>
+  
+	</form>
+	
+</body>
+</html>

@@ -29,7 +29,7 @@ public class ProductSpecificationHdr extends Entity {
 	@DbColumn
 	private int userId;*/
 
-	@DbColumn
+	@DbColumn("specification_name")
 	private String specificationName;
 
 	/*@DbColumn("company_id")

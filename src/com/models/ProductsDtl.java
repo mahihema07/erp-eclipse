@@ -14,6 +14,15 @@ public class ProductsDtl extends Entity {
 	@DbColumn("user_id")
 	private int userId;
 	
+	private String specificationName;
+
+	public String getSpecificationName() {
+		return specificationName;
+	}
+
+	public void setSpecificationName(String specificationName) {
+		this.specificationName = specificationName;
+	}
 	
 	public int getProductHdrId() {
 		return productHdrId;

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="panel panel-primary">
+            <div class="panel-heading">List of Books</div>
+            <table *ngIf=books class="table-striped" style="width: 100%">
+                <thead>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Author
+                </th>
+                <th>
+                    Rating
+                </th>
+                <th>
+                    Image
+                </th>
+                <th>
+                    Edit
+                </th>
+                </thead>
+                <tr *ngFor="let book of books">
+                    <td>
+                        {{book.title}}
+                    </td>
+                    <td>
+                        {{book.author}}
+                    </td>
+                    <td>
+                <star-rating [rating]="book.rating"></star-rating>
+                </td>
+                <td>
+                    <img src={{book.image}} />
+                </td>
+                <td>
+                    <a [routerLink]="['/ratebook',book.id]">Edit</a>
+                </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

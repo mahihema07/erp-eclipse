@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Currency Conversion Rates</title>
+<style>
+.thumb {
+	height: 75px;
+	border: 1px solid #000;
+	margin: 10px 5px 0 0;
+}
+
+.form-group.required .control-label:after {
+	content: "*";
+	color: red;
+}
+</style>
+</head>
+<body *ngIf=formData>
+
+
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 *ngIf="!formData.id" class="page-header"
+					style="font-weight: bold; font-size: 16px;">New Currency Conversion Rates 
+					</h1>
+				<h1 *ngIf="formData.id > 0" class="page-header"
+				style="font-weight: bold; font-size: 16px;">Edit Currency Conversion Rates
+					</h1>
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+		<div class="row">
+
+			<div class="col-lg-12">
+				<div class="">
+					<form id="currencyconversionForm" data-toggle="validator"
+						(ngSubmit)="submitForm(currencyconversionForm.value)"
+						#currencyconversionForm="ngForm" class="form-horizontal">
+
+						<!-- We'll add our form controls here -->
+
+						<input type="hidden" [(ngModel)]="formData.id" name="id"
+							class="form-control" />
+
+						<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">From Currency
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formData.fromcurrencyid" required="true"
+									name="fromcurrencyid"
+											class="form-control">
+											<option *ngFor="let c of currencylist" [value]="c.id">
+											{{c.currencyName}}</option>
+									</select>
+								</div>
+						</div>
+						
+						<div class="row">
+								<div class="col-xs-6">
+									<label for="categoryName" class="control-label">To Currency
+									 <span class="required">*</span>
+									</label>
+									<select [(ngModel)]="formData.tocurrencyid" required="true"
+									name="tocurrencyid"
+											class="form-control">
+											<option *ngFor="let c of currencylist" [value]="c.id">
+											{{c.currencyName}}</option>
+									</select>
+								</div>
+						</div>
+						<div class="row" >
+							<div class="col-xs-6">
+
+								<label class="control-label">Effective From Date  <span
+									class="required">*</span>
+								</label> <input type="date" [(ngModel)]="formData.effectivefromdate"
+									name="effectivefromdate" class="form-control"
+									data-error="Chart Of Accounts code is required" required
+									maxlength="255" />
+
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6">
+
+								<label class="control-label">Multiply Rate  <span
+									class="required">*</span>
+								</label> <input type="text" [(ngModel)]="formData.multiplyrate"
+									name="multiplyrate" class="form-control"
+									data-error="Chart Of Accounts code is required" required
+									maxlength="255" />
+
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6">
+
+								<label class="control-label">Divide Rate  <span
+									class="required">*</span>
+								</label> <input type="text" [(ngModel)]="formData.dividerate"
+									name="dividerate" class="form-control"
+									data-error="Chart Of Accounts code is required" required
+									maxlength="255" />
+
+							</div>
+						</div>
+						
+						<br>
+						<div class="row">
+							<div class="col-xs-6">
+								<button type="submit" class="btn btn-sm btn-primary">
+									<span *ngIf="!formData.id">Create</span> <span
+										*ngIf="formData.id > 0">Update</span>
+								</button>
+								<button [disabled]="!formData.id" type="button"
+									(click)="deleteModel(formData.id)"
+									class="btn btn-sm btn-danger">Delete</button>
+								<button type="button" (click)="backToHome()"
+									class="btn btn-sm btn-warning">Cancel</button>
+							</div>
+						</div>
+						<div class="row">
+                     <div *ngIf="show_throbber" class="col-lg-12" align="center"
+                        style="width: 100%;">
+                        <img alt="" src="img/loading1.gif">
+                     </div>
+                  </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

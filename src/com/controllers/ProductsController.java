@@ -22,11 +22,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.constants.AppConstants;
+import com.custommodels.ProductDtlListModel;
+import com.custommodels.PurchaseHdrListModel;
 import com.custommodels.ResponseBean;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.interfaces.ISpringController;
+import com.models.ProductCategory;
+import com.models.ProductSpecificationHdr;
 import com.models.ProductsDtl;
 import com.models.ProductsHdr;
 import com.models.Users;
@@ -35,8 +39,8 @@ import com.services.DBService;
 import com.services.EntityService;
 
 @RestController
-public class ProductsController implements ISpringController  {
-	
+public class ProductsController implements ISpringController {
+
 	@Autowired
 	DBService dbService;
 
@@ -45,15 +49,14 @@ public class ProductsController implements ISpringController  {
 
 	@Override
 	@RequestMapping(value = "loadproductsbypage", method = RequestMethod.POST)
-	public ResponseBean loadByPage(HttpSession sess,@RequestBody String body) {
-
+	public ResponseBean loadByPage(HttpSession sess, @RequestBody String body) {
 		ResponseBean responseBean = null;
 		DbOomQuery query = null;
 		ConnectionProvider cp = new AppConnectionProvider();
 		DbSession session = new DbSession(cp);
 		try {
 			JSONObject job = new JSONObject(body);
-		
+
 			int pageNumber = job.getInt("pageNumber");
 			int rowsOnPage = job.getInt("rowsOnPage");
 			String searchFilter = job.getString("searchFilter");
@@ -72,11 +75,9 @@ public class ProductsController implements ISpringController  {
 				}
 
 				query = new DbOomQuery(session, DbSqlBuilder.sql(queryString.toString()));
-				
-				
 
 				int count = query.list(ProductsHdr.class).size();
-				
+
 				if (rowsOnPage > 0) {
 					queryString.append(" LIMIT " + rowsOnPage);
 				}
@@ -89,23 +90,47 @@ public class ProductsController implements ISpringController  {
 
 				responseBean = new ResponseBean(AppConstants.RESPONSE_STATUS_VALUES.SUCCESS.name(), true, count,
 						listData);
-				
+
 			}
 
 		} catch (Exception e) {
-			responseBean = new ResponseBean(AppConstants.RESPONSE_STATUS_VALUES.ERROR.name(), true,
-					e.getMessage());
+			responseBean = new ResponseBean(AppConstants.RESPONSE_STATUS_VALUES.ERROR.name(), true, e.getMessage());
 			e.printStackTrace();
 		} finally {
 			session.closeSession();
 		}
-		
+
 		return responseBean;
 	}
 
 	@Override
-	public ResponseBean loadAllActive(HttpSession sess, String body) {
-				return null;
+	@RequestMapping(value = "loadAllProducts", method = RequestMethod.POST)
+	public ResponseBean loadAllActive(HttpSession sess, @RequestBody String body) {
+		ResponseBean responseBean = null;
+		DbOomQuery query = null;
+		ConnectionProvider cp = new AppConnectionProvider();
+		DbSession session = new DbSession(cp);
+		try {
+			JSONObject job = new JSONObject();
+			StringBuilder queryString = null;
+
+			Users u = (Users) sess.getAttribute(AppConstants.SESSION_VARIABLES.USER.name());
+
+			if (u == null) {
+				responseBean = new ResponseBean(AppConstants.RESPONSE_STATUS_VALUES.ERROR.name(), false);
+			} else {
+				queryString = new StringBuilder();
+				queryString.append("select $C{t.*} from $T{ProductsHdr t} where $t.isActive=1");
+				query = new DbOomQuery(session, DbSqlBuilder.sql(queryString.toString())).autoClose();
+				List<ProductsHdr> pdcat = query.list(ProductsHdr.class);
+				responseBean = new ResponseBean(AppConstants.RESPONSE_STATUS_VALUES.SUCCESS.name(), true, pdcat);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.closeSession();
+			return responseBean;
+		}
 	}
 
 	@Override
@@ -116,10 +141,8 @@ public class ProductsController implements ISpringController  {
 		ConnectionProvider cp = new AppConnectionProvider();
 		DbSession session = new DbSession(cp);
 		try {
-			
 
 			String id = body;
-			
 
 			Users u = (Users) sess.getAttribute(AppConstants.SESSION_VARIABLES.USER.name());
 
@@ -163,7 +186,6 @@ public class ProductsController implements ISpringController  {
 		return responseBean;
 	}
 
-
 	@Override
 	@RequestMapping(value = "saveOrUpdateProduct", method = RequestMethod.POST)
 	public ResponseBean saveOrUpdate(HttpSession sess, @RequestBody String body) throws Exception {
@@ -175,7 +197,6 @@ public class ProductsController implements ISpringController  {
 			session.beginTransaction(new DbTransactionMode().setReadOnly(false));
 
 			JSONObject job = new JSONObject(body);
-
 			Users u = (Users) sess.getAttribute(AppConstants.SESSION_VARIABLES.USER.name());
 
 			if (u == null) {
@@ -185,31 +206,27 @@ public class ProductsController implements ISpringController  {
 				ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
 						false);
 
-				ProductsHdr hdr = mapper.readValue(job.get("headerData").toString(),
-						new TypeReference<ProductsHdr>() {
-						});
+				ProductsHdr hdr = mapper.readValue(job.get("headerData").toString(), new TypeReference<ProductsHdr>() {
+				});
 				JSONArray arr = job.getJSONArray("gridData");
 
 				entityService.setDefaults(hdr, u);
 
 				if (hdr.getId() != 0) {
 
-					query = new DbOomQuery(session,
-							DbSqlBuilder.sql(
-									"delete $t from $T{ProductsDtl t} where $t.productHdrId='"
-											+ hdr.getId() + "'"));
+					query = new DbOomQuery(session, DbSqlBuilder
+							.sql("delete $t from $T{ProductsDtl t} where $t.productHdrId='" + hdr.getId() + "'"));
 					query.executeUpdate();
 
 					query = new DbOomQuery(session, DbEntitySql.update(hdr));
 					query.setGeneratedColumns("id");
-					
+
 					query.executeUpdate();
 					int hdrId = hdr.getId();
 
 					for (int i = 0; i < arr.length(); i++) {
-						ProductsDtl dtl = mapper.readValue(arr.get(i).toString(),
-								new TypeReference<ProductsDtl>() {
-								});
+						ProductsDtl dtl = mapper.readValue(arr.get(i).toString(), new TypeReference<ProductsDtl>() {
+						});
 
 						entityService.setDefaults(dtl, u);
 						dtl.setProductHdrId(hdrId);
@@ -225,9 +242,8 @@ public class ProductsController implements ISpringController  {
 					int hdrId = (int) query.getGeneratedKey();
 
 					for (int i = 0; i < arr.length(); i++) {
-						ProductsDtl dtl = mapper.readValue(arr.get(i).toString(),
-								new TypeReference<ProductsDtl>() {
-								});
+						ProductsDtl dtl = mapper.readValue(arr.get(i).toString(), new TypeReference<ProductsDtl>() {
+						});
 						entityService.setDefaults(dtl, u);
 						dtl.setProductHdrId(hdrId);
 
@@ -242,8 +258,7 @@ public class ProductsController implements ISpringController  {
 
 			session.commitTransaction();
 		} catch (Exception e) {
-			responseBean = new ResponseBean(AppConstants.RESPONSE_STATUS_VALUES.ERROR.name(), true,
-					e.getMessage());
+			responseBean = new ResponseBean(AppConstants.RESPONSE_STATUS_VALUES.ERROR.name(), true, e.getMessage());
 			e.printStackTrace();
 		} finally {
 			session.closeSession();
@@ -251,7 +266,6 @@ public class ProductsController implements ISpringController  {
 		return responseBean;
 
 	}
-
 
 	@Override
 	@RequestMapping(value = "deleteProduct", method = RequestMethod.POST)
@@ -262,7 +276,7 @@ public class ProductsController implements ISpringController  {
 		DbSession session = new DbSession(cp);
 		try {
 			session.beginTransaction(new DbTransactionMode().setReadOnly(false));
-			
+
 			StringBuilder queryString = null;
 
 			String id = body;
@@ -274,8 +288,7 @@ public class ProductsController implements ISpringController  {
 			} else {
 
 				queryString = new StringBuilder();
-				queryString.append(
-						"delete $t from $T{ProductsDtl t} where $t.productHdrId=" + id);
+				queryString.append("delete $t from $T{ProductsDtl t} where $t.productHdrId=" + id);
 				query = new DbOomQuery(session, DbSqlBuilder.sql(queryString.toString())).autoClose();
 				query.executeUpdate();
 
@@ -297,5 +310,43 @@ public class ProductsController implements ISpringController  {
 			session.closeSession();
 		}
 		return responseBean;
+	}
+
+	@RequestMapping(value = "loadallproductspecforpurchase", method = RequestMethod.POST)
+	public ResponseBean loadAllProductActive(HttpSession sess, @RequestBody String body) {
+		ResponseBean responseBean = null;
+		DbOomQuery query = null;
+		ConnectionProvider cp = new AppConnectionProvider();
+		DbSession session = new DbSession(cp);
+		try {
+			JSONObject job = new JSONObject();
+			StringBuilder queryString = null;
+
+			Users u = (Users) sess.getAttribute(AppConstants.SESSION_VARIABLES.USER.name());
+
+			if (u == null) {
+				responseBean = new ResponseBean(AppConstants.RESPONSE_STATUS_VALUES.ERROR.name(), false);
+			} else {
+				queryString = new StringBuilder();
+				queryString.append(
+						"select $C{p.*},$C{s.specificationName} as specificationName from $T{ProductSpecificationHdr s} ");
+				queryString.append(" join $T{ProductsDtl p}  ");
+				queryString.append("on $p.productSpecificationHdrId=$s.id  where $p.isActive=1");
+
+				query = new DbOomQuery(session, DbSqlBuilder.sql(queryString.toString())).autoClose();
+
+				// List<ProductsDtl> products = query.list(ProductsDtl.class);
+				List<ProductDtlListModel> listData = query.withHints("s", "s.specificationName")
+						.list(ProductDtlListModel.class, String.class);
+
+				responseBean = new ResponseBean(AppConstants.RESPONSE_STATUS_VALUES.SUCCESS.name(), true, listData);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.closeSession();
+			return responseBean;
+		}
 	}
 }

@@ -13,6 +13,12 @@ public class ChartOfAccountsGroup extends Entity{
 	
 	@DbColumn("group_type_id")
 	private int grouptypeid;
+	
+	@DbColumn("predef_code")
+	private String predefcode;
+	
+	@DbColumn("parent_groupid")
+	private int parentgroupid;
 
 	
 	public String getGroupName() {
@@ -31,8 +37,21 @@ public class ChartOfAccountsGroup extends Entity{
 		this.grouptypeid = grouptypeid;
 	}
 
-	public void setGrouptypeid(int grouptypeid) {
-		this.grouptypeid = grouptypeid;
+	
+	public String getPredefcode() {
+		return predefcode;
+	}
+
+	public void setPredefcode(String predefcode) {
+		this.predefcode = predefcode;
+	}
+
+	public int getParentgroupid() {
+		return parentgroupid;
+	}
+
+	public void setParentgroupid(int parentgroupid) {
+		this.parentgroupid = parentgroupid;
 	}
 	
 	

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Rate Book</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="panel panel-primary" style="width:100%;height: 100%;margin: 5,5,5,5">
+            <div class="panel-heading">Book Details !!</div>
+            <div *ngIf=book>
+                <form id="rateForm" (ngSubmit)="submitRate(rateForm.value)" #rateForm="ngForm" class="form-horizontal">
+
+                    <input type="hidden" [(ngModel)]="book.id" name="id" class="form-control"/>
+
+                    <div >
+                        <label >Title:</label>
+                        <label>{{book.title}} </label>
+                    </div>
+
+                    <div >
+                        <label >Author:</label>
+                        <label>{{book.author}} </label>
+                    </div>
+
+                    <div >
+                        <label >Notes:</label>
+                        <label>{{book.notes}} </label>
+                    </div>
+
+                    <div >
+                        <label >Rating:</label>
+                        <star-rating [rating]="book.rating"></star-rating>
+                    </div>
+
+                    <div>
+                        <img src={{book.image}}/>
+                    </div>
+
+                    <div class="panel panel-success" >
+                        <div class="panel-heading">Submit your review below !!</div>
+
+                        <div >
+                            <textarea  [(ngModel)]="book.notes" required="required" name="notes" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Submit</button>
+                    <button type="button" (click)="backToList()" class="btn-warning">Back to List</button>
+                </form>
+            </div>
+        </div>
+
+
+    </body>
+</html>

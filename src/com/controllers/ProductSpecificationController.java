@@ -58,7 +58,7 @@ public class ProductSpecificationController implements ISpringController {
 			JSONObject job = new JSONObject(body);
 
 			int pageNumber = job.getInt("pageNumber");
-			System.out.print(pageNumber);
+			
 			int rowsOnPage = job.getInt("rowsOnPage");
 			String searchFilter = job.getString("searchFilter");
 

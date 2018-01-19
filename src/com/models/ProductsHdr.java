@@ -20,10 +20,10 @@ public class ProductsHdr extends Entity{
 	@DbColumn("uom_id")
 	private int uomId;
 	
-	@JsonSerialize(using=NumericBooleanSerializer.class)
-	@JsonDeserialize(using=NumericBooleanDeserializer.class)
+	//@JsonSerialize(using=NumericBooleanSerializer.class)
+	//@JsonDeserialize(using=NumericBooleanDeserializer.class)
 	@DbColumn("is_stockable")
-	private int isStockable;
+	private boolean isStockable;
 	
 	
 	public String getProductName() {
@@ -50,11 +50,11 @@ public class ProductsHdr extends Entity{
 		this.uomId = uomId;
 	}
 
-	public int getStockable() {
+	public boolean getStockable() {
 		return isStockable;
 	}
 
-	public void setStockable(int isStockable) {
+	public void setStockable(boolean isStockable) {
 		this.isStockable = isStockable;
 	}
 
