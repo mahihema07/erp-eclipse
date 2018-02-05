@@ -8,33 +8,31 @@ import jodd.db.oom.meta.DbId;
 import jodd.db.oom.meta.DbTable;
 
 @DbTable("specification_components")
-public class SpecificationComponents{
+public class SpecificationComponents extends Entity {
 
+	/*
 	@DbColumn
 	@DbId
 	public int id;
-	
+
 	@DbColumn
 	public int isactive;
-	
+
 	@DbColumn
 	public int createdby;
-	
+
 	@DbColumn
 	public Timestamp createdtime;
-	
+
 	@DbColumn
 	public int updatedby;
-	
-	@DbColumn	
+
+	@DbColumn
 	public Timestamp updatedtime;
-	
+*/
 	@DbColumn("component_name")
 	public String componentName;
-	
-	@DbColumn("component_code")
-	public String componentCode;
-	
+/*
 	@DbColumn("user_id")
 	public int userId;
 
@@ -85,7 +83,7 @@ public class SpecificationComponents{
 	public void setUpdatedtime(Timestamp updatedtime) {
 		this.updatedtime = updatedtime;
 	}
-
+*/
 	public String getComponentName() {
 		return componentName;
 	}
@@ -93,15 +91,7 @@ public class SpecificationComponents{
 	public void setComponentName(String componentName) {
 		this.componentName = componentName;
 	}
-
-	public String getComponentCode() {
-		return componentCode;
-	}
-
-	public void setComponentCode(String componentCode) {
-		this.componentCode = componentCode;
-	}
-
+/*
 	public int getUserId() {
 		return userId;
 	}
@@ -109,6 +99,5 @@ public class SpecificationComponents{
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	
-	
+*/
 }

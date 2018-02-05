@@ -10,7 +10,8 @@ import { PurchaseService } from "./services/app.purchase.service";
 import { SupplierService } from "../suppliers/services/app.suppliers.service";
 import { ProductsService } from "../products/productsmaster/service/app.product.service";
 
-
+import * as Handsontable from 'handsontable';
+import { getBasicData } from './data';
 
 @Component( {
     templateUrl: './app/components/purchase/purchase_crud.html',
@@ -21,9 +22,14 @@ import { ProductsService } from "../products/productsmaster/service/app.product.
 export class PurchaseCrud implements OnInit {
     private hdrid: any;
 
+    private data: any[];
+    private options: any;
+    private columns: any[];
+    private rows: any[];
+
+    private colHeaders: string[] = ['Specification', '8mm', '6mm', '5mm', '2mm'];
 
     private specificationlist: any;
-
     private loadDataAllUrl: any;
     private producthdr: any;
     private supplier: any;
@@ -67,6 +73,49 @@ export class PurchaseCrud implements OnInit {
             }
             this.show_throbber = false;
         } );
+        this.loadSheet();
+    }
+
+
+    loadSheet() {
+
+        this.options = {
+            height: 396,
+            rowHeaders: true,
+            stretchH: 'all',
+            columnSorting: true,
+            contextMenu: true
+        };
+        this.columns = [
+                        {
+                            data: 'producthdrid',
+                            renderer: 'text',
+                            readOnly: false,
+                            source: 'producthdrid',
+                        },
+                        {
+                            data: 'productdtlid',
+                            renderer: 'text',
+                            readOnly: false
+                        },
+                        {
+                            data: 'quantity',
+                            renderer: 'text',
+                            readOnly: false
+                        },
+                        {
+                            data: 'rate',
+                            renderer: 'text',
+                            readOnly: false
+                        },
+                        {
+                            data: 'totalprice',
+                            renderer: 'text',
+                            readOnly: false
+                        }
+                    ]
+
+
     }
 
     submitForm( data: any ) {
@@ -104,7 +153,7 @@ export class PurchaseCrud implements OnInit {
         }
     }
 
-   
+
 
 
 
@@ -120,6 +169,7 @@ export class PurchaseCrud implements OnInit {
                     this.formData = ( dataObj.headerData );
 
                     this.gridData = dataObj.detailData;
+                    this.data=dataObj.detailData;
                 }
             },
             err => {

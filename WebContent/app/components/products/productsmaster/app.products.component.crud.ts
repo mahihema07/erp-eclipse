@@ -12,12 +12,12 @@ import { CategoryService } from "../product_category/services/app.category.servi
 
 @Component( {
     templateUrl: './app/components/products/productsmaster/products_crud.html',
-    providers: [ProductsService,ProductSpecificationService,UomService,CategoryService]
+    providers: [ProductsService, ProductSpecificationService, UomService, CategoryService]
 } )
 
 export class ProductsCrud implements OnInit {
     private category: any;
-   
+
     private uom: any;
     private productsspecification: any;
     private productSpecification: any;
@@ -28,14 +28,14 @@ export class ProductsCrud implements OnInit {
     private show_throbber: boolean;
 
     getBlankGridData() {
-            
-          let  productSpecificationHdrId:null;
+
+        let productSpecificationHdrId: null;
     }
 
     constructor( private http: Http, private route: ActivatedRoute, private router: Router,
-        private formService: ProductsService,private productSpecificationService:ProductSpecificationService ,
-        private uomService:UomService,private categoryService: CategoryService) { 
-            
+        private formService: ProductsService, private productSpecificationService: ProductSpecificationService,
+        private uomService: UomService, private categoryService: CategoryService ) {
+
     }
 
     ngOnInit() {
@@ -45,7 +45,7 @@ export class ProductsCrud implements OnInit {
             this.show_throbber = true;
 
             let id = params['id'];
-           
+
             this.loadCombos();
 
             if ( id == 0 ) {
@@ -68,6 +68,59 @@ export class ProductsCrud implements OnInit {
             }
 
             this.formService.submitModel( params )
+                .subscribe( data => {
+                    this.show_throbber = false;
+
+                    if ( !data[AppConstants.IS_AUTHENTICATED] ) {
+                        document.getElementById( "openModalButton" ).click();
+                    } else {
+                        alert( data[AppConstants.RESPONSE_MESSAGE] );
+                        if ( data[AppConstants.RESPONSE_STATUS] == AppConstants.RESPONSE_STATUS_SUCCESS )
+                            this.router.navigate( [this.listRoute] );
+                    }
+                },
+                err => {
+                    this.show_throbber = false;
+                    alert( err );
+                    console.log( err );
+                } );
+
+
+        } catch ( e ) {
+            console.error( e );
+        }
+    }
+
+    backToHome() {
+        this.router.navigate( [this.listRoute] );
+    }
+
+    loadFormData( id: string ) {
+
+        this.formService.loadModelDataById( id )
+            .subscribe( data => {
+                this.show_throbber = false;
+                if ( !data[AppConstants.IS_AUTHENTICATED] ) {
+                    document.getElementById( "openModalButton" ).click();
+                } else {
+                    var dataObj = ( data[AppConstants.RESPONSE_DATA] );
+                    this.formData = ( dataObj.headerData );
+                    this.gridData = dataObj.detailData;
+
+                }
+            },
+            err => {
+                this.show_throbber = false;
+                alert( err );
+                console.log( err );
+            } );
+
+
+    }
+
+    deleteModel( id: any ) {
+
+        this.formService.deleteModel( id )
             .subscribe( data => {
                 this.show_throbber = false;
 
@@ -84,130 +137,77 @@ export class ProductsCrud implements OnInit {
                 alert( err );
                 console.log( err );
             } );
-            
-
-        } catch ( e ) {
-            console.error( e );
-        }
-    }
-
-    backToHome() {
-        this.router.navigate( [this.listRoute] );
-    }
-
-    loadFormData( id: string ) {
-        
-        this.formService.loadModelDataById( id )
-        .subscribe( data => {
-            this.show_throbber = false;
-            if ( !data[AppConstants.IS_AUTHENTICATED] ) {
-                document.getElementById( "openModalButton" ).click();
-            } else {
-                var dataObj = ( data[AppConstants.RESPONSE_DATA] );
-                this.formData = ( dataObj.headerData );
-                this.gridData = dataObj.detailData;
-                
-            }
-        },
-        err => {
-            this.show_throbber = false;
-            alert( err );
-            console.log( err );
-        } );
-        
-
-    }
-
-    deleteModel( id: any ) {
-        
-        this.formService.deleteModel( id )
-        .subscribe( data => {
-            this.show_throbber = false;
-
-            if ( !data[AppConstants.IS_AUTHENTICATED] ) {
-                document.getElementById( "openModalButton" ).click();
-            } else {
-                alert( data[AppConstants.RESPONSE_MESSAGE] );
-                if ( data[AppConstants.RESPONSE_STATUS] == AppConstants.RESPONSE_STATUS_SUCCESS )
-                    this.router.navigate( [this.listRoute] );
-            }
-        },
-        err => {
-            this.show_throbber = false;
-            alert( err );
-            console.log( err );
-        } );
 
     }
 
     loadCombos() {
-        
+
         this.productSpecificationService.loadAllProductSpecifications()
-        .subscribe(
-        data => {
-            if ( !data[AppConstants.IS_AUTHENTICATED] ) {
-                document.getElementById( "openModalButton" ).click();
-            } else {
-                if ( data[AppConstants.RESPONSE_STATUS] == AppConstants.RESPONSE_STATUS_SUCCESS ) {
-                    var dataObj = ( data[AppConstants.RESPONSE_DATA] );
-                    this.productsspecification = dataObj;
-               } else {
-                    alert( data[AppConstants.RESPONSE_MESSAGE] );
-                }
-            }
-        },
-        err => {
-            alert( err );
-            console.log( err );
-        } );
-        
-        //load uom
-        
-        this.uomService.loadAllUoms()
-        .subscribe(
-        data => {
-            if ( !data[AppConstants.IS_AUTHENTICATED] ) {
-                document.getElementById( "openModalButton" ).click();
-            } else {
-                if ( data[AppConstants.RESPONSE_STATUS] == AppConstants.RESPONSE_STATUS_SUCCESS ) {
-                    var dataObj = ( data[AppConstants.RESPONSE_DATA] );
-                    this.uom = dataObj;
-                   
+            .subscribe(
+            data => {
+                if ( !data[AppConstants.IS_AUTHENTICATED] ) {
+                    document.getElementById( "openModalButton" ).click();
                 } else {
-                    alert( data[AppConstants.RESPONSE_MESSAGE] );
+                    if ( data[AppConstants.RESPONSE_STATUS] == AppConstants.RESPONSE_STATUS_SUCCESS ) {
+                        var dataObj = ( data[AppConstants.RESPONSE_DATA] );
+                        this.productsspecification = dataObj;
+                    } else {
+                        alert( data[AppConstants.RESPONSE_MESSAGE] );
+                    }
                 }
-            }
-        },
-        err => {
-            alert( err );
-            console.log( err );
-        } );
-        
+            },
+            err => {
+                alert( err );
+                console.log( err );
+            } );
+
+        //load uom
+
+        this.uomService.loadAllUoms()
+            .subscribe(
+            data => {
+                if ( !data[AppConstants.IS_AUTHENTICATED] ) {
+                    document.getElementById( "openModalButton" ).click();
+                } else {
+                    if ( data[AppConstants.RESPONSE_STATUS] == AppConstants.RESPONSE_STATUS_SUCCESS ) {
+                        var dataObj = ( data[AppConstants.RESPONSE_DATA] );
+                        this.uom = dataObj;
+
+                    } else {
+                        alert( data[AppConstants.RESPONSE_MESSAGE] );
+                    }
+                }
+            },
+            err => {
+                alert( err );
+                console.log( err );
+            } );
+
         //load Category
         this.categoryService.loadAllModelData()
-        .subscribe(
-        data => {
-            if ( !data[AppConstants.IS_AUTHENTICATED] ) {
-                document.getElementById( "openModalButton" ).click();
-            } else {
-                if ( data[AppConstants.RESPONSE_STATUS] == AppConstants.RESPONSE_STATUS_SUCCESS ) {
-                    var dataObj = ( data[AppConstants.RESPONSE_DATA] );
-                    this.category = dataObj;
-                   
+            .subscribe(
+            data => {
+                if ( !data[AppConstants.IS_AUTHENTICATED] ) {
+                    document.getElementById( "openModalButton" ).click();
                 } else {
-                    alert( data[AppConstants.RESPONSE_MESSAGE] );
+                    if ( data[AppConstants.RESPONSE_STATUS] == AppConstants.RESPONSE_STATUS_SUCCESS ) {
+                        var dataObj = ( data[AppConstants.RESPONSE_DATA] );
+                        this.category = dataObj;
+
+                    } else {
+                        alert( data[AppConstants.RESPONSE_MESSAGE] );
+                    }
                 }
-            }
-        },
-        err => {
-            alert( err );
-            console.log( err );
-        } );
-      
+            },
+            err => {
+                alert( err );
+                console.log( err );
+            } );
+
     }
 
     addRows() {
-        this.gridData.push(new this.getBlankGridData() );
+        this.gridData.push( new this.getBlankGridData() );
     }
 
     removeRow( item: any, index: any ) {

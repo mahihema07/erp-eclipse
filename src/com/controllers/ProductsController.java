@@ -216,6 +216,7 @@ public class ProductsController implements ISpringController {
 
 					query = new DbOomQuery(session, DbSqlBuilder
 							.sql("delete $t from $T{ProductsDtl t} where $t.productHdrId='" + hdr.getId() + "'"));
+					System.out.print("query="+query);
 					query.executeUpdate();
 
 					query = new DbOomQuery(session, DbEntitySql.update(hdr));
@@ -334,6 +335,7 @@ public class ProductsController implements ISpringController {
 				queryString.append("on $p.productSpecificationHdrId=$s.id  where $p.isActive=1");
 
 				query = new DbOomQuery(session, DbSqlBuilder.sql(queryString.toString())).autoClose();
+				
 
 				// List<ProductsDtl> products = query.list(ProductsDtl.class);
 				List<ProductDtlListModel> listData = query.withHints("s", "s.specificationName")

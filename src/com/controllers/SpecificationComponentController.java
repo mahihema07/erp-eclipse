@@ -20,6 +20,7 @@ import com.models.SpecificationComponents;
 import com.models.Users;
 import com.services.AppConnectionProvider;
 import com.services.DBService;
+import com.services.EntityService;
 
 import jodd.db.DbSession;
 import jodd.db.DbTransactionMode;
@@ -35,6 +36,9 @@ public class SpecificationComponentController {
 	@Autowired
 	DBService dbService;
 
+	@Autowired
+	EntityService entityservice;
+	
 	@RequestMapping(value = "loadspecificationcomponentsbypage", method = RequestMethod.POST)
 	public String loadSpecificationComponentsByPage(HttpSession sess, @RequestBody String body) {
 		String ret = "";
@@ -202,15 +206,16 @@ public class SpecificationComponentController {
 				cmp.setUserId(u.getId());
 
 				if (cmp.getId() > 0) {
-					cmp.setUpdatedby(u.getId());
-					cmp.setIsactive(1);
+				//	cmp.setUpdatedby(u.getId());
+				//	cmp.setIsactive(1);
 
 					query = new DbOomQuery(conn, DbEntitySql.update(cmp));
 				} else {
-					cmp.setCreatedby(u.getId());
-					cmp.setIsactive(1);
-
+				//	cmp.setCreatedby(u.getId());
+				//	cmp.setIsactive(1);
+					entityservice.setDefaults(cmp, u);
 					query = new DbOomQuery(conn, DbSqlBuilder.sql().insert(SpecificationComponents.class, cmp));
+					query.setGeneratedColumns("id");
 				}
 
 				query.executeUpdate();

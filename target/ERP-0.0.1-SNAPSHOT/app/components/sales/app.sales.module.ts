@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DataTableModule } from "angular2-datatable";
 import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import { HotTableModule } from 'ng2-handsontable';
 
 import { SalesList } from './app.sales.list';
 import { SalesCrud } from './app.sales.crud';
@@ -19,7 +19,7 @@ const routes: Routes = [
 
 @NgModule( {
     imports: [
-        CommonModule, HttpModule, FormsModule, NgxPaginationModule, DataTableModule, RouterModule,
+        CommonModule, HttpModule, FormsModule, NgxPaginationModule, DataTableModule, RouterModule, HotTableModule,
         RouterModule.forChild( routes, {
             useHash: true
         } )

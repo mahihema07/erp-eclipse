@@ -31,6 +31,7 @@
 					'angular2-datatable' : 'npm:angular2-datatable',
 					'ngx-pagination' : 'lib/ngxpagination/ngx-pagination.js',
 					'primeng' : 'npm:primeng',
+					'ng2-handsontable': 'npm:ng2-handsontable/bundles/ng2-handsontable.umd.js'
 						//'ng2-scrollable' :'node_modules/ng2-scrollable/dist'
 						
 				},
@@ -50,11 +51,7 @@
 					},
 					'primeng' : {
 						defaultExtension : 'js'
-					}/*,
-					
-					 'ng2-scrollable' : { 
-						 defaultExtension : 'js' 
-						 }*/
+					}
 				}
 			});
 })(this);
